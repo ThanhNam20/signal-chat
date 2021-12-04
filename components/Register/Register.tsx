@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { View, Text, StyleSheet } from 'react-native'
 import {
   Box,
   Heading,
@@ -13,7 +13,12 @@ import {
 
 const Register = () => {
   return (
-    <Box safeArea p="2" w="90%" maxW="290" py="8">
+    <Box safeArea flex={1}
+      p={2}
+      w="90%"
+      mx='auto'
+      justifyContent="center"
+      >
       <Heading
         size="lg"
         color="coolGray.800"
@@ -37,13 +42,9 @@ const Register = () => {
       </Heading>
       <VStack space={3} mt="5">
         <FormControl>
-          <Input  placeholder="Email" />
-        </FormControl>
-        <FormControl>
-          <Input placeholder="Password" type="password" />
-        </FormControl>
-        <FormControl>
-          <Input placeholder="Press again password" type="password" />
+          <Input style={styles.input} placeholder="Email" />
+          <Input style={styles.input} mt="5" placeholder="Password" type="password" />
+          <Input style={styles.input} mt="5" placeholder="Press again password" type="password" />
         </FormControl>
         <Button mt="2" colorScheme="indigo">
           Sign up
@@ -52,5 +53,11 @@ const Register = () => {
     </Box>
   )
 }
+
+const styles = StyleSheet.create({
+  input: {
+    lineHeight: 28
+  }
+})
 
 export default Register
