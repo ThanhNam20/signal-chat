@@ -14,12 +14,16 @@ import {
 import { useNavigation } from '@react-navigation/core';
 import { Formik } from 'formik';
 import { LoginValidate } from './Login.validate';
+import { useDispatch } from 'react-redux';
+import { login } from '../../store/auth/AuthSlice';
 
 const Login = () => {
   const navigation = useNavigation();
+  const dispatch = useDispatch();
+
   const onSubmitLogin = (values: any) => {
     console.log(values);
-
+    dispatch(login());
   }
 
   const goToRegisterSreen = () => {

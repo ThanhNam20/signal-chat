@@ -1,0 +1,17 @@
+{
+  "trigger": true,
+  "modules": [
+    "custom"
+  ],
+  "parentResource": "SignalChat",
+  "functionName": "SignalChatPostConfirmation",
+  "resourceName": "SignalChatPostConfirmation",
+  "parentStack": "auth",
+  "triggerEnvs": [],
+  "triggerDir": "/home/thanhnam/.nvm/versions/node/v12.16.0/lib/node_modules/@aws-amplify/cli/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/PostConfirmation",
+  "triggerTemplate": "PostConfirmation.json.ejs",
+  "triggerEventPath": "PostConfirmation.event.json",
+  "roleName": "SignalChatPostConfirmation",
+  "skipEdit": true,
+  "enableCors": false
+}

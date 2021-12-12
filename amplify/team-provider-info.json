@@ -1,0 +1,27 @@
+{
+  "staging": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-signalchat-staging-25110-authRole",
+      "UnauthRoleArn": "arn:aws:iam::572193148395:role/amplify-signalchat-staging-25110-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::572193148395:role/amplify-signalchat-staging-25110-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-signalchat-staging-25110-deployment",
+      "UnauthRoleName": "amplify-signalchat-staging-25110-unauthRole",
+      "StackName": "amplify-signalchat-staging-25110",
+      "StackId": "arn:aws:cloudformation:us-east-2:572193148395:stack/amplify-signalchat-staging-25110/0a011040-54ad-11ec-915e-0ad00a620102",
+      "AmplifyAppId": "d2s6n3x56epaqx",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-signalchat-staging-25110-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "SignalChat": {}
+      },
+      "function": {
+        "SignalChatPostConfirmation": {
+          "deploymentBucketName": "amplify-signalchat-staging-25110-deployment",
+          "s3Key": "amplify-builds/SignalChatPostConfirmation-5078683353744152614d-build.zip"
+        }
+      }
+    }
+  }
+}

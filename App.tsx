@@ -6,18 +6,40 @@ import useCachedResources from './hooks/useCachedResources';
 import useColorScheme from './hooks/useColorScheme';
 import Navigation from './navigation';
 
-export default function App() {
+import { Provider } from 'react-redux';
+import { store } from './store/store';
+
+import Amplify, {Auth} from 'aws-amplify';
+
+import config from './src/aws-exports';
+// @ts-ignore
+import { withAuthenticator } from 'aws-amplify-react-native';
+
+Amplify.configure(config);
+
+function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
+
+  Auth.currentAuthenticatedUser().then(data =>{
+    console.log(data);
+  });
 
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
+      <Provider store={store}>
       <SafeAreaProvider>
         <Navigation colorScheme={colorScheme} />
         <StatusBar />
       </SafeAreaProvider>
+      </Provider>
+
     );
   }
 }
+
+// export default App;
+
+export default withAuthenticator(App);
