@@ -50,7 +50,6 @@ const MessageInput = () => {
           style={styles.input}
           placeholder="Enter message..."
           onChangeText={(setMessage)}
-
         />
         <Feather name="camera" size={24} color="grey" style={styles.icon} />
         <MaterialCommunityIcons name="microphone-outline" size={24} color="grey" style={styles.icon} />

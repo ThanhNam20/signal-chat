@@ -6,7 +6,6 @@ import { RootTabScreenProps } from '../types';
 
 
 export default function HomeScreen({ navigation }: RootTabScreenProps<'TabOne'>) {
-
   const roomMessageData = ChatRooms;
 
   return (

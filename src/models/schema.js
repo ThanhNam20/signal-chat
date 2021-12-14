@@ -45,11 +45,11 @@ export const schema = {
                         "associatedWith": "userID"
                     }
                 },
-                "chatrooms": {
-                    "name": "chatrooms",
+                "ChatRooms": {
+                    "name": "ChatRooms",
                     "isArray": true,
                     "type": {
-                        "model": "ChatRoomUser"
+                        "model": "UserChatRoom"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -58,20 +58,6 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "user"
                     }
-                },
-                "email": {
-                    "name": "email",
-                    "isArray": false,
-                    "type": "AWSEmail",
-                    "isRequired": true,
-                    "attributes": []
-                },
-                "password": {
-                    "name": "password",
-                    "isArray": false,
-                    "type": "String",
-                    "isRequired": true,
-                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -255,7 +241,7 @@ export const schema = {
                     "name": "ChatRoomUsers",
                     "isArray": true,
                     "type": {
-                        "model": "ChatRoomUser"
+                        "model": "UserChatRoom"
                     },
                     "isRequired": false,
                     "attributes": [],
@@ -314,8 +300,8 @@ export const schema = {
                 }
             ]
         },
-        "ChatRoomUser": {
-            "name": "ChatRoomUser",
+        "UserChatRoom": {
+            "name": "UserChatRoom",
             "fields": {
                 "id": {
                     "name": "id",
@@ -382,7 +368,7 @@ export const schema = {
                 }
             },
             "syncable": true,
-            "pluralName": "ChatRoomUsers",
+            "pluralName": "UserChatRooms",
             "attributes": [
                 {
                     "type": "model",
@@ -393,5 +379,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "4328dcca9e685bd889f1db27942336aa"
+    "version": "bc78e4e8b02ed9a97ef082191ca7ec9b"
 };

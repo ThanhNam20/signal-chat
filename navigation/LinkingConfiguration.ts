@@ -31,7 +31,9 @@ const linking: LinkingOptions<RootStackParamList> = {
       Modal: 'modal',
       NotFound: '*',
       LoginScreen: 'login',
-      RegisterScreen: 'register'
+      RegisterScreen: 'register',
+      UserScreen: 'list-active-user',
+      UserProfileScreen: 'user-profile',
     },
   },
 };

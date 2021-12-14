@@ -24,6 +24,8 @@ import HomeHeader from '../components/HomeHeader';
 import LoginScreen from '../screens/LoginScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import ChatRoomScreenHeader from '../components/ChatRoomScreenHeader';
+import UserScreen from '../screens/UserScreen';
+import UserProfile from '../components/UserProfile';
 
 
 
@@ -50,6 +52,8 @@ function RootNavigator() {
       <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerTitle: "Login", headerShown: true}} /> */}
       
       <Stack.Screen name="Root" options={{headerTitle: "Test", headerShown: false}} component={BottomTabNavigator}  />
+      <Stack.Screen name="UserScreen" component={UserScreen} options={{headerTitle: "User", headerShown: true}} />
+      <Stack.Screen name="UserProfileScreen" component={UserProfile} options={{headerTitle: "User Profile", headerShown: true}} />
       <Stack.Screen name="ChatRoom" component={ChatRoomScreen} options={{headerTitle: ChatRoomScreenHeader, headerBackTitleVisible: false}} />
       <Stack.Screen name="NotFound" component={NotFoundScreen} />
       {/* <Stack.Group screenOptions={{ presentation: 'modal' }}>

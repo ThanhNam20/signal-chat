@@ -58,8 +58,6 @@ const ChatRoomScreenHeader = (props: any) => {
           style={{ marginHorizontal: 5 }}
         />
       </View>
-
-
     </View>
   );
 };

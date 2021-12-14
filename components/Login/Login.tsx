@@ -23,7 +23,7 @@ const Login = () => {
 
   const onSubmitLogin = (values: any) => {
     console.log(values);
-    dispatch(login());
+    // dispatch(login());
   }
 
   const goToRegisterSreen = () => {

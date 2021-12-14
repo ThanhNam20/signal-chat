@@ -4,9 +4,7 @@ type User @model @auth(rules: [{allow: public}]) {
   imageUri: String
   status: String
   Messages: [Message] @hasMany(indexName: "byUser", fields: ["id"])
-  chatrooms: [ChatRoom] @manyToMany(relationName: "ChatRoomUser")
-  email: AWSEmail!
-  password: String!
+  ChatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRoom")
 }
 
 type ChatRoom @model @auth(rules: [{allow: public}]) {
@@ -14,7 +12,7 @@ type ChatRoom @model @auth(rules: [{allow: public}]) {
   newMessages: Int
   LastMessage: Message @hasOne
   Messages: [Message] @hasMany(indexName: "byChatRoom", fields: ["id"])
-  ChatRoomUsers: [User] @manyToMany(relationName: "ChatRoomUser")
+  ChatRoomUsers: [User] @manyToMany(relationName: "UserChatRoom")
 }
 
 type Message @model @auth(rules: [{allow: public}]) {
@@ -23,4 +21,4 @@ type Message @model @auth(rules: [{allow: public}]) {
   userID: ID @index(name: "byUser")
   chatroomID: ID @index(name: "byChatRoom")
 }
-  
+ 
