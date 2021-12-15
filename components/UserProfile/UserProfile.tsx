@@ -14,21 +14,45 @@ const UserProfile = () => {
           style={{ width: 80, height: 80, borderRadius: 40 }}
         />
       </View>
-      <View>
-        <View>
-          <View >
-            <Text>
-              Thanh Nam
-            </Text>
-            <TextInput />
-          </View>
 
+      <View style={styles.userProfileInputData}>
+        <View style={styles.profileItem}>
+          <Text>
+            Thanh Nam
+          </Text>
+          <TextInput style={styles.profileItemInput} />
         </View>
 
-        <View>
+        <View style={styles.profileItem}>
+          <Text>
+            Thanh Nam
+          </Text>
+          <TextInput style={styles.profileItemInput} />
+        </View>
 
+        <View style={styles.profileItem}>
+          <Text>
+            Thanh Nam
+          </Text>
+          <TextInput style={styles.profileItemInput} />
+        </View>
+
+        <View style={styles.profileItem}>
+          <Text>
+            Thanh Nam
+          </Text>
+          <TextInput style={styles.profileItemInput} />
         </View>
       </View>
+
+      <View style={styles.userProfileInputData}>
+        <View style={styles.profileItem}>
+          <Text>
+            Logout
+          </Text>
+        </View>
+      </View>
+
     </View>
   )
 }
