@@ -1,56 +1,72 @@
-import { DataStore } from '@aws-amplify/datastore';
-import { useNavigation } from '@react-navigation/core';
-import React, { useEffect, useState } from 'react'
-import { View, Image, Text, Pressable, ActivityIndicator } from 'react-native'
-import { ChatRoom, User, UserChatRoom } from '../../src/models';
-import styles from './ChatRoomItem.style'
+import { DataStore } from "@aws-amplify/datastore";
+import { useNavigation } from "@react-navigation/core";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, Image, Pressable, View, Text } from "react-native";
+import { useSelector } from "react-redux";
+import { Message, User, UserChatRoom } from "../../src/models";
+import { RootState } from "../../store/store";
+import styles from "./ChatRoomItem.style";
 
 const ChatRoomItem = ({ chatRoomData }: any) => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [user, setUser] = useState<User | null>(null);
+
+  const [user, setUser] = useState<User | any>(null);
+  const authUser = useSelector((state: RootState) => state.auth);
+  const [lastMessage, setLastMessage] = useState<Message | undefined>();
+  const navigation = useNavigation();
 
   useEffect(() => {
-    // fetchUsers();
-  }, [])
+    fetchUsers();
+    getLastMessage();
+  }, []);
 
   const fetchUsers = async () => {
     const fetchedUsers = (await DataStore.query(UserChatRoom))
-      .filter(userChatRoom => userChatRoom.chatRoom.id == chatRoomData.id)
-      .map(userChatRoom => userChatRoom.user);
-    console.log(fetchedUsers);
-    setUsers(fetchedUsers);
-    setUser(fetchedUsers[0]);
+      .filter((userChatRoom) => userChatRoom.chatRoom.id == chatRoomData.id)
+      .map((userChatRoom) => userChatRoom.user);
+    const userChat = fetchedUsers.find((user: any) => user.id !== authUser.authUserInfo.attributes.sub); 
+    setUser(userChat);
+  };
+
+  const getLastMessage = async () =>{
+    if(!chatRoomData.chatRoomLastMessageId) return;
+    const lastMessage = (await DataStore.query(Message)).find( message => message.id === chatRoomData.chatRoomLastMessageId);
+    console.log(lastMessage);
+    
+    setLastMessage(lastMessage);
   }
 
 
-  const navigation = useNavigation()
-
-  const goToConversation = () =>{
-    navigation.navigate('ChatRoom', chatRoomData.id);
-  } 
+  const goToConversation = () => {
+    console.log(chatRoomData.id);
+    
+    navigation.navigate("ChatRoom", {id: chatRoomData.id});
+  };
 
   if (!user) {
-    return <ActivityIndicator />
+    return <ActivityIndicator />;
   }
 
   return (
-    <Pressable  style={styles.container}>
-      {/* <Image style={styles.image} source={{ uri: user.imageUri }} />
+    <Pressable onPress={goToConversation} style={styles.container}>
+      <Image source={{ uri: user.imageUri}} style={styles.image} />
 
-      { !!chatRoomData.newMessages ? <View style={styles.badgeContainer}>
-          <Text style={styles.badgeText} >{chatRoomData.newMessages}</Text>
-        </View> : null
-      }
+      {chatRoomData.newMessages > 0 ? (
+        <View style={styles.badgeContainer}>
+          <Text style={styles.badgeText}>{chatRoomData.newMessages}</Text>
+        </View>
+      ) : null}
 
-      <View style={styles.rightContainer} >
+      <View style={styles.rightContainer}>
         <View style={styles.row}>
           <Text style={styles.name}>{user.name}</Text>
-          <Text style={styles.text}>{chatRoomData.lastMessage.createdAt}</Text>
+          <Text style={styles.text}>{lastMessage?.createdAt}</Text>
         </View>
-        <Text numberOfLines={1} style={styles.text}>{chatRoomData.lastMessage.content}</Text>
-      </View> */}
+        <Text numberOfLines={1} style={styles.text}>
+          {lastMessage?.content}
+        </Text>
+      </View>
     </Pressable>
-  )
-}
+  );
+};
 
-export default ChatRoomItem
+export default ChatRoomItem;

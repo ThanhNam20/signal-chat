@@ -20,11 +20,7 @@ Amplify.configure(config);
 function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-
-  // Auth.currentAuthenticatedUser().then(data =>{
-  //   console.log(data);
-  // });
-
+  
   if (!isLoadingComplete) {
     return null;
   } else {

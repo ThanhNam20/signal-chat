@@ -7,7 +7,7 @@ import { ChatRoom, User, UserChatRoom } from '../../src/models';
 import styles from './UserItem.style'
 
 const UserItem = ({user}: any) => {
-  const navigation =  useNavigation()
+  const navigation =  useNavigation();
   
   const createNewChatRoom = async () =>{
     // Todo if there is a already a chatroom between these 2 users
@@ -20,13 +20,8 @@ const UserItem = ({user}: any) => {
       newMessages: 0,
     }));
 
-
     const authUser  = await Auth.currentAuthenticatedUser();
     const dbUser = await DataStore.query(User, authUser.attributes.sub);
-
-
-    console.log(user);
-    console.log(dbUser);
 
     await DataStore.save( new UserChatRoom({
       userID: dbUser.id,
@@ -44,7 +39,6 @@ const UserItem = ({user}: any) => {
     }))
 
     // navigation.navigate('ChatRoom', {id: newChatRoom.id});
-
 } 
 
   return (

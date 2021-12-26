@@ -18,23 +18,35 @@ import {
   AntDesign,
   Ionicons,
 } from "@expo/vector-icons";
+import { DataStore } from '@aws-amplify/datastore';
+import { Message } from '../../src/models';
+import { ChatRoom } from '../../src/models';
 
-const MessageInput = () => {
-
+const MessageInput = ({props}: any) => {
+  const {userId, chatRoom} = props;
   const [message, setMessage] = useState('');
 
   const onPressButtonSend = () => {
     if (message) {
       onSendMessage();
       setMessage('');
-    } else {
-
-    }
+    } else {return}
   }
 
-  const onSendMessage = () => {
-    console.log(message);
+  const onSendMessage = async () => {
+    const newMessage = await DataStore.save(new Message({
+      content: message,
+      userID: userId,
+      chatroomID: chatRoom.id,
+    }))
     setMessage('');
+    updateLastMessage(newMessage);
+  }
+
+  const updateLastMessage = async (newMessage: any) =>{
+    DataStore.save(ChatRoom.copyOf(chatRoom, updateChatRoom =>{
+      updateChatRoom.LastMessage = newMessage
+    }))
   }
 
   return (

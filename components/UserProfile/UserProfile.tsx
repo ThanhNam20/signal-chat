@@ -1,4 +1,3 @@
-import { Input } from 'native-base'
 import React from 'react'
 import { View, Text, Image, TextInput } from 'react-native'
 import styles from './UserProfile.style'

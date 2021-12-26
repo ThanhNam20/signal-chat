@@ -1,13 +1,17 @@
 import { useRoute } from '@react-navigation/core';
 import React from 'react';
 import { View, Text } from 'react-native';
+import { useSelector } from 'react-redux';
 import { blue, grey } from '../../constants/Constant';
+import { RootState } from '../../store/store';
 import styles from './Message.style';
   
 
 const Message = ({message}: any) => {
-  const isMe = (message.id === message.user.id)? true : false;
+  const userState = useSelector((state: RootState) => state.auth.authUserInfo);
+  const isMe = (userState.attributes.sub === message.userID)? true : false;
   const route = useRoute();
+  
   return (
     <View style ={[
       styles.container,

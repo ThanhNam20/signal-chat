@@ -14,7 +14,8 @@ const UserScreen = () => {
 
   // query user from aws
   const fetchUsers = async () => {
-    const fetchedUsers = await DataStore.query(User);    
+    const fetchedUsers = await DataStore.query(User); 
+    console.log(fetchedUsers)   ;
     setUsers(fetchedUsers);
   }
 

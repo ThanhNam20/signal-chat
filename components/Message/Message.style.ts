@@ -8,10 +8,6 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     maxWidth: "75%",
   },
-  row: {
-    flexDirection: "row",
-    alignItems: "flex-end",
-  },
   messageReply: {
     backgroundColor: "gray",
     padding: 5,

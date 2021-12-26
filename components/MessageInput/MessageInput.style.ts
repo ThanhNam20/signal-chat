@@ -11,7 +11,10 @@ const styles = StyleSheet.create({
     marginRight: 5,
     display: "flex",
     justifyContent: "center",
-    alignItems: "center"
+    alignItems: "center",
+    position: "absolute",
+    bottom: 0,
+    textAlign: "center"
   },
   inputContainer: {
     backgroundColor: "#f2f2f2",

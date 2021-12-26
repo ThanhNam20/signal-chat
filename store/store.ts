@@ -6,6 +6,7 @@ export const store = configureStore({
   reducer: {
     auth: AuthReducer
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(),
 });
 
 export type RootState = ReturnType<typeof store.getState>; // A global type to access reducers types
