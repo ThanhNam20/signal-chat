@@ -22,7 +22,9 @@ exports.handler = async (event) => {
     createdAt: { S: now.toISOString() },
     updatedAt: { S: now.toISOString() },
     id: { S: event.request.userAttributes.sub },
-    name: { S: event.request.userAttributes.email },
+    email: { S: event.request.userAttributes.email },
+    imageUri: { S: 'https://picsum.photos/200' },
+    status: { S: 'Hi, there!' },
   }
   
   const params = {

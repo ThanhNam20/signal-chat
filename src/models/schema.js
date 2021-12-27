@@ -10,8 +10,8 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
-                "name": {
-                    "name": "name",
+                "email": {
+                    "name": "email",
                     "isArray": false,
                     "type": "String",
                     "isRequired": true,
@@ -58,6 +58,27 @@ export const schema = {
                         "connectionType": "HAS_MANY",
                         "associatedWith": "user"
                     }
+                },
+                "name": {
+                    "name": "name",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "phone_number": {
+                    "name": "phone_number",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "dob": {
+                    "name": "dob",
+                    "isArray": false,
+                    "type": "String",
+                    "isRequired": false,
+                    "attributes": []
                 },
                 "createdAt": {
                     "name": "createdAt",
@@ -379,5 +400,5 @@ export const schema = {
     },
     "enums": {},
     "nonModels": {},
-    "version": "bc78e4e8b02ed9a97ef082191ca7ec9b"
+    "version": "78da90efb5f116336557bede5d69ffa2"
 };

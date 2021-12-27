@@ -1,4 +1,5 @@
 import { DataStore } from "@aws-amplify/datastore";
+import { useNavigation } from "@react-navigation/core";
 import * as React from "react";
 import { FlatList, SafeAreaView, StyleSheet } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,11 +8,10 @@ import { ChatRoom, UserChatRoom } from "../src/models";
 import { getUserAuhthenticationData } from "../store/auth/AuthSlice";
 import { RootTabScreenProps } from "../types";
 
-export default function HomeScreen({
-  navigation,
-}: RootTabScreenProps<"TabOne">) {
+export default function HomeScreen({}: RootTabScreenProps<"TabOne">) {
   const [chatRooms, setChatRooms] = React.useState<ChatRoom[]>();
   const dispatch = useDispatch();
+  const navigation = useNavigation();
 
   React.useEffect(() => {
     getChatRooms();

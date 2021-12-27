@@ -38,7 +38,7 @@ const UserItem = ({user}: any) => {
       chatRoom: newChatRoom
     }))
 
-    // navigation.navigate('ChatRoom', {id: newChatRoom.id});
+    navigation.navigate('ChatRoom', {id: newChatRoom.id});
 } 
 
   return (

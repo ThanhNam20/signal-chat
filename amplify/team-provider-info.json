@@ -19,7 +19,7 @@
       "function": {
         "SignalChatPostConfirmation": {
           "deploymentBucketName": "amplify-signalchat-staging-25110-deployment",
-          "s3Key": "amplify-builds/SignalChatPostConfirmation-5078683353744152614d-build.zip"
+          "s3Key": "amplify-builds/SignalChatPostConfirmation-4f6e4b464e375a796337-build.zip"
         }
       }
     }

@@ -1,10 +1,13 @@
 type User @model @auth(rules: [{allow: public}]) {
   id: ID!
-  name: String!
+  email: String!
   imageUri: String
   status: String
   Messages: [Message] @hasMany(indexName: "byUser", fields: ["id"])
   ChatRooms: [ChatRoom] @manyToMany(relationName: "UserChatRoom")
+  name: String
+  phone_number: String
+  dob: String
 }
 
 type ChatRoom @model @auth(rules: [{allow: public}]) {
