@@ -1,19 +1,29 @@
-const setLocal = (key: string, value: any) => {
-  localStorage.setItem(key, value);
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+const setItem = async (value: any, keystore: string) => {
+    try {
+        const jsonValue = JSON.stringify(value)
+        await AsyncStorage.setItem(keystore, jsonValue)
+    } catch (e) {
+        // saving error
+    }
 }
 
-const getLocal = (key: string) => {
-  return localStorage.getItem(key);
+const getItem = async (keystore: string) => {
+    try {
+        const jsonValue = await AsyncStorage.getItem(keystore)
+        return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch(e) {
+        // error reading value
+    }
 }
 
-const removeLocal = (key: string) => {
-  localStorage.removeItem(key);
+const removeItem = (keystore: string) =>{
+    AsyncStorage.removeItem(keystore);
 }
 
-const clearLocal = () => {
-  localStorage.clear();
+const removeAllItems = () =>{
+    AsyncStorage.clear();
 }
 
-export const StorageService = {
-  setLocal, getLocal, removeLocal, clearLocal
-}
+export const AsyncStorageService = {setItem, getItem, removeItem, removeAllItems}

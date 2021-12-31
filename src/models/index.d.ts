@@ -30,6 +30,7 @@ export declare class User {
   readonly name?: string;
   readonly phone_number?: string;
   readonly dob?: string;
+  readonly password: string;
   readonly createdAt?: string;
   readonly updatedAt?: string;
   constructor(init: ModelInit<User, UserMetaData>);

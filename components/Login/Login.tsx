@@ -1,5 +1,5 @@
-import React from 'react'
-import { View, StyleSheet, TextInput } from 'react-native'
+import React from "react";
+import { View, StyleSheet, TextInput } from "react-native";
 import {
   Box,
   Text,
@@ -9,35 +9,43 @@ import {
   Input,
   Link,
   Button,
-  HStack
-} from "native-base"
-import { useNavigation } from '@react-navigation/core';
-import { Formik } from 'formik';
-import { LoginValidate } from './Login.validate';
-import { useDispatch } from 'react-redux';
-import { login } from '../../store/auth/AuthSlice';
+  HStack,
+} from "native-base";
+import { useNavigation } from "@react-navigation/core";
+import { Formik } from "formik";
+import { LoginValidate } from "./Login.validate";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/auth/AuthSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { AsyncStorageService } from "../../services/storage.service";
+import { keyLocalStorage } from "../../constants/Constant";
 
 const Login = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
 
-  const onSubmitLogin = (values: any) => {
-    console.log(values);
-    // dispatch(login());
-  }
+  const onSubmitLogin = async (values: any) => {
+    const userLogin: any = await dispatch(
+      login({
+        email: values.email,
+        password: values.password,
+      })
+    );
+    const userLoginData = unwrapResult(userLogin);
+    if (!userLoginData) {
+      return;
+    }
+    await AsyncStorageService.setItem(userLoginData, keyLocalStorage.userData);
+
+    navigation.navigate("Root");
+  };
 
   const goToRegisterSreen = () => {
     navigation.navigate("RegisterScreen");
-  }
+  };
 
   return (
-    <Box safeArea
-      flex={1}
-      p={2}
-      w="90%"
-      mx='auto'
-      justifyContent="center"
-    >
+    <Box safeArea flex={1} p={2} w="90%" mx="auto" justifyContent="center">
       <Heading
         size="lg"
         fontWeight="600"
@@ -63,25 +71,36 @@ const Login = () => {
       <VStack space={3} mt="5">
         <FormControl>
           <Formik
-            initialValues={{ email: '', password: '' }}
+            initialValues={{ email: "", password: "" }}
             validationSchema={LoginValidate}
-            onSubmit={values => onSubmitLogin(values)}
+            onSubmit={(values) => onSubmitLogin(values)}
           >
             {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
               <View>
                 <Input
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
+
+                  onChangeText={handleChange("email")}
                   value={values.email}
-                  style={styles.input}
-                  placeholder="Email" />
-                {errors.email ? <Text style ={styles.errorText}>{errors.email}</Text> : null}
+                  pt="4"
+                  pb="4"
+                  placeholder="Email"
+                />
+                {errors.email ? (
+                  <Text style={styles.errorText}>{errors.email}</Text>
+                ) : null}
                 <Input
-                  onChangeText={handleChange('password')}
-                  onBlur={handleBlur('password')}
+
+                  onChangeText={handleChange("password")}
                   value={values.password}
-                  style={styles.input} mt="5" placeholder="Password" type="password" />
-                {errors.password ? <Text style ={styles.errorText}>{errors.password}</Text> : null}
+                  mt="5"
+                  pt="4"
+                  pb="4"
+                  placeholder="Password"
+                  type="password"
+                />
+                {errors.password ? (
+                  <Text style={styles.errorText}>{errors.password}</Text>
+                ) : null}
                 <Link
                   _text={{
                     fontSize: "xs",
@@ -124,16 +143,13 @@ const Login = () => {
         </FormControl>
       </VStack>
     </Box>
-  )
-}
+  );
+};
 
 const styles = StyleSheet.create({
-  input: {
-    lineHeight: 28,
-  },
   errorText: {
-    color: "red"
-  }
-})
+    color: "red",
+  },
+});
 
 export default Login;

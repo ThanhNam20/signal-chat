@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { AuthReducer } from './auth/AuthSlice';
+import { messageReducer } from './message/MessageSlice';
 
 
 export const store = configureStore({
   reducer: {
-    auth: AuthReducer
+    auth: AuthReducer,
+    message: messageReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(),
 });
