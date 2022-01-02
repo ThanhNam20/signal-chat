@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, StyleSheet, TextInput } from "react-native";
 import {
   Box,
@@ -23,6 +23,20 @@ import { keyLocalStorage } from "../../constants/Constant";
 const Login = () => {
   const navigation = useNavigation();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    getUserLoginData();
+  }, []);
+
+  const getUserLoginData = async () => {
+    const userData = await AsyncStorageService.getItem(
+      keyLocalStorage.userData
+    );
+    if (userData) {
+      navigation.navigate("Root");
+      return;
+    }
+  };
 
   const onSubmitLogin = async (values: any) => {
     const userLogin: any = await dispatch(
@@ -78,7 +92,6 @@ const Login = () => {
             {({ handleChange, handleBlur, handleSubmit, values, errors }) => (
               <View>
                 <Input
-
                   onChangeText={handleChange("email")}
                   value={values.email}
                   pt="4"
@@ -89,7 +102,6 @@ const Login = () => {
                   <Text style={styles.errorText}>{errors.email}</Text>
                 ) : null}
                 <Input
-
                   onChangeText={handleChange("password")}
                   value={values.password}
                   mt="5"

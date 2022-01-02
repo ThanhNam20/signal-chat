@@ -1,8 +1,17 @@
-import React from 'react'
-import { View, Text, Image, TextInput } from 'react-native'
-import styles from './UserProfile.style'
+import { useNavigation } from "@react-navigation/core";
+import React from "react";
+import { View, Text, Image, TextInput, Pressable } from "react-native";
+import { keyLocalStorage } from "../../constants/Constant";
+import { AsyncStorageService } from "../../services/storage.service";
+import styles from "./UserProfile.style";
 
 const UserProfile = () => {
+  const navigation = useNavigation();
+  const logout = () => {
+    AsyncStorageService.removeItem(keyLocalStorage.userData);
+    navigation.navigate("LoginScreen");
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.avatarUser}>
@@ -16,45 +25,34 @@ const UserProfile = () => {
 
       <View style={styles.userProfileInputData}>
         <View style={styles.profileItem}>
-          <Text>
-            Thanh Nam
-          </Text>
+          <Text>Thanh Nam</Text>
           <TextInput style={styles.profileItemInput} />
         </View>
 
         <View style={styles.profileItem}>
-          <Text>
-            Thanh Nam
-          </Text>
+          <Text>Thanh Nam</Text>
           <TextInput style={styles.profileItemInput} />
         </View>
 
         <View style={styles.profileItem}>
-          <Text>
-            Thanh Nam
-          </Text>
+          <Text>Thanh Nam</Text>
           <TextInput style={styles.profileItemInput} />
         </View>
 
         <View style={styles.profileItem}>
-          <Text>
-            Thanh Nam
-          </Text>
+          <Text>Thanh Nam</Text>
           <TextInput style={styles.profileItemInput} />
         </View>
       </View>
-
-      <View style={styles.userProfileInputData}>
-        <View style={styles.profileItem}>
-          <Text>
-            Logout
-          </Text>
+      <Pressable onPress={logout}>
+        <View style={styles.userProfileInputData}>
+          <View style={styles.profileItem}>
+            <Text>Logout</Text>
+          </View>
         </View>
-      </View>
-
+      </Pressable>
     </View>
-  )
-}
-
+  );
+};
 
 export default UserProfile;

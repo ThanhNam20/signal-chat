@@ -3,12 +3,15 @@ import { DataStore } from '@aws-amplify/datastore';
 import { useNavigation } from '@react-navigation/core';
 import React from 'react'
 import { View, Text, Pressable, Image } from 'react-native'
+import { useSelector } from 'react-redux';
 import { ChatRoom, User, UserChatRoom } from '../../src/models';
+import { RootState } from '../../store/store';
 import styles from './UserItem.style'
 
 const UserItem = ({user}: any) => {
   const navigation =  useNavigation();
-  
+  const authUser: any = useSelector((state: RootState) => state.auth);
+
   const createNewChatRoom = async () =>{
     // Todo if there is a already a chatroom between these 2 users
     // then redirect to the existing chat room
@@ -20,12 +23,11 @@ const UserItem = ({user}: any) => {
       newMessages: 0,
     }));
 
-    const authUser  = await Auth.currentAuthenticatedUser();
-    const dbUser = await DataStore.query(User, authUser.attributes.sub);
+
 
     await DataStore.save( new UserChatRoom({
-      userID: dbUser.id,
-      user: dbUser,
+      userID: authUser.authUserInfo.id,
+      user: authUser.authUserInfo,
       chatRoomID: newChatRoom.id,
       chatRoom: newChatRoom
     }))
@@ -54,4 +56,6 @@ const UserItem = ({user}: any) => {
   )
 }
 
-export default UserItem
+export default UserItem;
+
+

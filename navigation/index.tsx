@@ -49,9 +49,9 @@ function RootNavigator() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerTitle: "Login", headerShown: false}} />
-      <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerTitle: "Login", headerShown: true}} />
-      
-      <Stack.Screen name="Root" options={{headerTitle: "Test", headerShown: false}} component={BottomTabNavigator}  />
+      <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerTitle: "Register", headerShown: true}} />
+      <Stack.Screen name="Root" options={{headerTitle: "Home", headerShown: false}} component={BottomTabNavigator}  />
+
       <Stack.Screen name="UserScreen" component={UserScreen} options={{headerTitle: "User", headerShown: true}} />
       <Stack.Screen name="UserProfileScreen" component={UserProfile} options={{headerTitle: "User Profile", headerShown: true}} />
       <Stack.Screen name="ChatRoom" component={ChatRoomScreen} options={{headerTitle: ChatRoomScreenHeader, headerBackTitleVisible: false}} />

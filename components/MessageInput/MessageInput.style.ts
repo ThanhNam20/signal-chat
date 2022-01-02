@@ -12,8 +12,6 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    position: "absolute",
-    bottom: 0,
     textAlign: "center"
   },
   inputContainer: {

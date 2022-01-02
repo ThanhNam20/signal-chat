@@ -1,11 +1,28 @@
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
-import { Image, Pressable, SafeAreaView, SafeAreaViewComponent, Text, useWindowDimensions, View, } from "react-native";
+import React, { useEffect, useState } from "react";
+import { Image, Pressable, Text, useWindowDimensions, View } from "react-native";
+import { keyLocalStorage } from "../../constants/Constant";
+import { AsyncStorageService } from "../../services/storage.service";
+import { User } from "../../src/models";
 
 const HomeHeader = (props: any) => {
   const { width } = useWindowDimensions();
   const navigation = useNavigation();
+  const [user, setUser] = useState<any>({});
+  useEffect(() =>{
+    getUserLoginData();
+  }, [])
+
+  const getUserLoginData = async () => {
+    const userData = await AsyncStorageService.getItem(
+      keyLocalStorage.userData
+    );
+    if (!userData) {
+      return;
+    }
+    setUser(userData)
+  };
 
   return (
     <View
@@ -23,9 +40,7 @@ const HomeHeader = (props: any) => {
 
       <Pressable onPress={() => navigation.navigate("UserProfileScreen")}>
       <Image
-        source={{
-          uri: "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim.jpg",
-        }}
+        source={{uri: user.imageUri}}
         style={{ width: 30, height: 30, borderRadius: 30 }}
       />
       </Pressable>

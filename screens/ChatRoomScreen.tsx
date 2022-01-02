@@ -12,7 +12,7 @@ import { RootState } from "../store/store";
 const ChatRoomScreen = () => {
   const [messages, setMessages] = useState<MessageModel[]>([]);
   const [chatRoom, setChatRoom] = useState<ChatRoom | any>(null);
-  const authUser = useSelector((state: RootState) => state.auth.authUserInfo);
+  const authUser = useSelector((state: RootState) => state.auth);
 
   const route = useRoute<any>();
 
@@ -57,7 +57,6 @@ const ChatRoomScreen = () => {
         sort: (message) => message.createdAt(SortDirection.DESCENDING),
       }
     );
-    console.log(fetchedMessages);
     setMessages(fetchedMessages);
   };
 
@@ -72,7 +71,7 @@ const ChatRoomScreen = () => {
 
       <MessageInput
         props={{
-          userId: authUser.attributes.sub,
+          userId: authUser.authUserInfo.id,
           chatRoom: chatRoom,
         }}
       />
@@ -86,7 +85,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   listMessage: {
-    marginBottom: 60,
+    marginBottom: 20,
   }
 });
 

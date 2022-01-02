@@ -2,38 +2,47 @@ import { DataStore } from "@aws-amplify/datastore";
 import { useNavigation } from "@react-navigation/core";
 import * as React from "react";
 import { FlatList, SafeAreaView, StyleSheet } from "react-native";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import ChatRoomItem from "../components/ChatRoomItem";
-import { ChatRoom, UserChatRoom } from "../src/models";
-import { getUserAuhthenticationData } from "../store/auth/AuthSlice";
-import { RootTabScreenProps } from "../types";
-import {AsyncStorageService} from "../services/storage.service";
 import { keyLocalStorage } from "../constants/Constant";
+import { AsyncStorageService } from "../services/storage.service";
+import { ChatRoom, UserChatRoom } from "../src/models";
+import { setUserData } from "../store/auth/AuthSlice";
+import { RootTabScreenProps } from "../types";
 
 export default function HomeScreen({}: RootTabScreenProps<"TabOne">) {
-  const [chatRooms, setChatRooms] = React.useState<ChatRoom[]>();
+  const [chatRooms, setChatRooms] = React.useState<ChatRoom[]>([]);
   const dispatch = useDispatch();
   const navigation = useNavigation();
-
   React.useEffect(() => {
     getUserLoginData();
   }, []);
 
-  const getUserLoginData = async () =>{
-    if(!await AsyncStorageService.getItem(keyLocalStorage.userData)){
-      navigation.navigate('LoginScreen');
-      return;
-    }else {
-      getChatRooms();
-    }
-  }
+  React.useEffect(() => {
+    const chatRoomsSub = DataStore.observe(UserChatRoom).subscribe((room: any) =>{
+      if(room.model && room.opType === 'INSERT'){
+        setChatRooms(existingMessage => [room.element, ...existingMessage])
+      }
+    })
+    return chatRoomsSub.unsubscribe();
+  }, []);
 
-  const getChatRooms = async () => {
-    const userData: any = await dispatch(getUserAuhthenticationData());
+  const getUserLoginData = async () => {
+    const userData = await AsyncStorageService.getItem(
+      keyLocalStorage.userData
+    );
+    if (!userData) {
+      return;
+    } else {
+      getChatRooms(userData);
+    }
+  };
+
+  const getChatRooms = async (userData: any) => {
+    dispatch(setUserData(userData))
     const chatRooms = (await DataStore.query(UserChatRoom))
-      .filter((chatRoomItem) => chatRoomItem.user.id == userData.payload.attributes.sub)
+      .filter((chatRoomItem) => chatRoomItem.user.id == userData.id)
       .map((chatRoomItem) => chatRoomItem.chatRoom);
-    console.log(chatRooms);  
     setChatRooms(chatRooms);
   };
   return (

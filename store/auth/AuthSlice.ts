@@ -6,14 +6,6 @@ import { User } from '../../src/models';
 import { setMessage } from '../message/MessageSlice';
 import { defaultMessage } from '../../constants/Constant';
 
-
-export const getUserAuhthenticationData = createAsyncThunk('auth/authentication-user',
-  async (params, thunkApi) => {
-    const authenticationDataUser = await Auth.currentAuthenticatedUser();
-    return authenticationDataUser;
-  }
-)
-
 export const register = createAsyncThunk('auth/register',
   async ({ email, name, password }: any, thunkApi) => {
     const isEmailRegistered = await DataStore.query(User, user => user.email('eq', email));
@@ -23,7 +15,6 @@ export const register = createAsyncThunk('auth/register',
       return;
     }
     const hashedPassword = CryptoService.encryptPassWord(password).toString();
-    const decrypt = CryptoService.decryptPassWord(hashedPassword);
 
     const userRegister = await DataStore.save(
       new User({
@@ -51,7 +42,7 @@ export const login = createAsyncThunk('auth/login', async ({ email, password }: 
   }
   const user = isEmailRegistered[0];
   const decryptPassWord = CryptoService.decryptPassWord(user.password);
-  if(password != decryptPassWord) {
+  if (password != decryptPassWord) {
     thunkApi.dispatch(setMessage(defaultMessage.wrongPassword));
     return;
   }
@@ -68,21 +59,12 @@ const initState: any = {
 const authSlice = createSlice({
   name: 'auth',
   initialState: initState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder.addCase(getUserAuhthenticationData.pending, (state, action) => {
-      state.loading = true;
-    });
-    builder.addCase(getUserAuhthenticationData.rejected, (state, action) => {
-      state.loading = false;
-      state.error = true;
-    });
-    builder.addCase(getUserAuhthenticationData.fulfilled, (state, action) => {
-      state.loading = false;
-      state.error = false;
+  reducers: {
+    setUserData: (state, action) => {
       state.authUserInfo = action.payload;
-    });
-
+    }
+  },
+  extraReducers: (builder) => {
     builder.addCase(register.pending, (state, action) => {
       state.loading = true;
     });
@@ -116,6 +98,6 @@ const authSlice = createSlice({
 });
 
 const { reducer, actions } = authSlice;
-export const { } = actions;
+export const { setUserData } = actions;
 export const AuthReducer = reducer;
 

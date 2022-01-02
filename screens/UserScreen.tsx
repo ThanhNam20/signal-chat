@@ -9,15 +9,17 @@ import { RootState } from "../store/store";
 
 const UserScreen = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const authUser = useSelector((state: RootState) => state.auth.authUserInfo);
+  const authUser = useSelector((state: RootState) => state.auth);
   useEffect(() => {
     fetchUsers();
   }, []);
 
   // query user from aws
   const fetchUsers = async () => {
+    console.log(authUser);
+    
     const fetchedUsers = await DataStore.query(User, (user) =>
-      user.id("ne", authUser.attributes.sub)
+      user.id("ne", authUser.authUserInfo.id)
     );
     console.log(fetchedUsers);
     setUsers(fetchedUsers);

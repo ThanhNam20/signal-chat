@@ -1,5 +1,6 @@
 import { DataStore } from "@aws-amplify/datastore";
 import { useNavigation } from "@react-navigation/core";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { ActivityIndicator, Image, Pressable, View, Text } from "react-native";
 import { useSelector } from "react-redux";
@@ -23,22 +24,18 @@ const ChatRoomItem = ({ chatRoomData }: any) => {
     const fetchedUsers = (await DataStore.query(UserChatRoom))
       .filter((userChatRoom) => userChatRoom.chatRoom.id == chatRoomData.id)
       .map((userChatRoom) => userChatRoom.user);
-    const userChat = fetchedUsers.find((user: any) => user.id !== authUser.authUserInfo.attributes.sub); 
+    const userChat = fetchedUsers.find((user: any) => user.id !== authUser.authUserInfo.id); 
     setUser(userChat);
   };
 
   const getLastMessage = async () =>{
     if(!chatRoomData.chatRoomLastMessageId) return;
     const lastMessage = (await DataStore.query(Message)).find( message => message.id === chatRoomData.chatRoomLastMessageId);
-    console.log(lastMessage);
-    
     setLastMessage(lastMessage);
   }
 
 
-  const goToConversation = () => {
-    console.log(chatRoomData.id);
-    
+  const goToConversation = () => {    
     navigation.navigate("ChatRoom", {id: chatRoomData.id});
   };
 
@@ -59,7 +56,7 @@ const ChatRoomItem = ({ chatRoomData }: any) => {
       <View style={styles.rightContainer}>
         <View style={styles.row}>
           <Text style={styles.name}>{user.name}</Text>
-          <Text style={styles.text}>{lastMessage?.createdAt}</Text>
+          <Text style={styles.text}>{moment(lastMessage?.createdAt).fromNow()}</Text>
         </View>
         <Text numberOfLines={1} style={styles.text}>
           {lastMessage?.content}

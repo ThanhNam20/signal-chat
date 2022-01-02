@@ -8,8 +8,8 @@ import styles from './Message.style';
   
 
 const Message = ({message}: any) => {
-  const userState = useSelector((state: RootState) => state.auth.authUserInfo);
-  const isMe = (userState.attributes.sub === message.userID)? true : false;
+  const userState = useSelector((state: RootState) => state.auth);
+  const isMe = (userState.authUserInfo.id === message.userID)? true : false;
   const route = useRoute();
   
   return (
