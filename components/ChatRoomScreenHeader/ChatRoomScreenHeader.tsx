@@ -1,11 +1,42 @@
+import { DataStore } from "@aws-amplify/datastore";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
-import { Image, Pressable, SafeAreaView, SafeAreaViewComponent, Text, useWindowDimensions, View } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  Image,
+  Pressable,
+  SafeAreaView,
+  SafeAreaViewComponent,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
+import { useSelector } from "react-redux";
+import { UserChatRoom } from "../../src/models";
+import { RootState } from "../../store/store";
 
-const ChatRoomScreenHeader = (props: any) => {
+const ChatRoomScreenHeader = ({ id }: any) => {
   const { width } = useWindowDimensions();
   const navigation = useNavigation();
+  const authUser = useSelector((state: RootState) => state.auth);
+  const [user, setUser] = useState<any>("");
+
+  useEffect(() => {
+    fetchUsers();
+  }, []);
+
+  const fetchUsers = async () => {
+    if (!id) return;
+    const fetchedUsers = (await DataStore.query(UserChatRoom)).filter(
+      (userChatRoom) => userChatRoom.chatRoom.id === id
+    ).map(userChatRoom => userChatRoom.user);
+    const userChat = fetchedUsers.find(
+      (user: any) => user.id !== authUser.authUserInfo.id
+    );
+    console.log(userChat);
+    
+    setUser(userChat);
+  };
 
   return (
     <View
@@ -14,19 +45,19 @@ const ChatRoomScreenHeader = (props: any) => {
         width: width - 60,
         alignItems: "center",
         backgroundColor: "#fff",
-        justifyContent: 'space-between',
-        marginLeft: -15
+        justifyContent: "space-between",
+        marginLeft: -15,
       }}
     >
-      <View style={{
-        flexDirection: "row",
-        alignItems: "center",
-        justifyContent:"center"
-      }}>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <Image
-          source={{
-            uri: "https://notjustdev-dummy.s3.us-east-2.amazonaws.com/avatars/vadim.jpg",
-          }}
+          source={{ uri: user.imageUri }}
           style={{ width: 30, height: 30, borderRadius: 30 }}
         />
         <Text
@@ -34,17 +65,18 @@ const ChatRoomScreenHeader = (props: any) => {
             textAlign: "center",
             fontWeight: "bold",
             fontSize: 18,
-            paddingLeft: 10
-
+            paddingLeft: 10,
           }}
         >
-          Signal
+          {user.name}
         </Text>
       </View>
 
-      <View style={{
-        flexDirection: "row",
-      }}>
+      <View
+        style={{
+          flexDirection: "row",
+        }}
+      >
         <Feather
           name="camera"
           size={24}

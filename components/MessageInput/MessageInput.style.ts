@@ -6,13 +6,6 @@ const styles = StyleSheet.create({
   },
   row: {
     flexDirection: "row",
-    marginBottom: 8,
-    marginLeft: 5,
-    marginRight: 5,
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    textAlign: "center"
   },
   inputContainer: {
     backgroundColor: "#f2f2f2",
@@ -33,8 +26,8 @@ const styles = StyleSheet.create({
     marginHorizontal: 5,
   },
   buttonContainer: {
-    width: 35,
-    height: 35,
+    width: 40,
+    height: 40,
     backgroundColor: "#3777f0",
     borderRadius: 25,
     justifyContent: "center",
