@@ -24,5 +24,7 @@ type Message @model @auth(rules: [{allow: public}]) {
   content: String!
   userID: ID @index(name: "byUser")
   chatroomID: ID @index(name: "byChatRoom")
+  image: String
+  audio: String
 }
  

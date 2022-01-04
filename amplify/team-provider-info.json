@@ -14,7 +14,8 @@
     },
     "categories": {
       "auth": {
-        "SignalChat": {}
+        "SignalChat": {},
+        "true": {}
       },
       "function": {
         "SignalChatPostConfirmation": {

@@ -2,21 +2,13 @@ import { DataStore } from "@aws-amplify/datastore";
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import {
-  Image,
-  Pressable,
-  SafeAreaView,
-  SafeAreaViewComponent,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native";
+import { Image, Text, useWindowDimensions, View } from "react-native";
 import { useSelector } from "react-redux";
 import { UserChatRoom } from "../../src/models";
 import { RootState } from "../../store/store";
 
 const ChatRoomScreenHeader = ({ id }: any) => {
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const navigation = useNavigation();
   const authUser = useSelector((state: RootState) => state.auth);
   const [user, setUser] = useState<any>("");
@@ -27,14 +19,12 @@ const ChatRoomScreenHeader = ({ id }: any) => {
 
   const fetchUsers = async () => {
     if (!id) return;
-    const fetchedUsers = (await DataStore.query(UserChatRoom)).filter(
-      (userChatRoom) => userChatRoom.chatRoom.id === id
-    ).map(userChatRoom => userChatRoom.user);
+    const fetchedUsers = (await DataStore.query(UserChatRoom))
+      .filter((userChatRoom) => userChatRoom.chatRoom.id === id)
+      .map((userChatRoom) => userChatRoom.user);
     const userChat = fetchedUsers.find(
       (user: any) => user.id !== authUser.authUserInfo.id
     );
-    console.log(userChat);
-    
     setUser(userChat);
   };
 
@@ -44,7 +34,6 @@ const ChatRoomScreenHeader = ({ id }: any) => {
         flexDirection: "row",
         width: width - 60,
         alignItems: "center",
-        backgroundColor: "#fff",
         justifyContent: "space-between",
         marginLeft: -15,
       }}

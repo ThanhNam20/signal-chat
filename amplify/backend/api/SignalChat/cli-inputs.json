@@ -3,7 +3,7 @@
   "serviceConfiguration": {
     "apiName": "SignalChat",
     "serviceName": "AppSync",
-    "gqlSchemaPath": "/tmp/amplify-d32eb452-9934-4f80-954f-4dfb1fc79f12/amplify/backend/api/SignalChat/schema.graphql",
+    "gqlSchemaPath": "/tmp/amplify-7760b17d-afe7-444a-b354-a99246ba4b3e/amplify/backend/api/SignalChat/schema.graphql",
     "defaultAuthType": {
       "mode": "API_KEY",
       "keyDescription": "api key description",

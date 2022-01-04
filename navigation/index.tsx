@@ -12,7 +12,7 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
-import { ColorSchemeName, Image, Pressable, View } from "react-native";
+import { ColorSchemeName, Image, Pressable, StyleSheet, View } from "react-native";
 
 import Colors from "../constants/Colors";
 import useColorScheme from "../hooks/useColorScheme";
@@ -91,7 +91,9 @@ function RootNavigator() {
         options={({route}) => ({
           headerTitle: () => <ChatRoomScreenHeader id={route.params?.id} />,
           headerBackTitleVisible: false,
+          headerStyle: {backgroundColor: "#E2C2B9"}
         })}
+        
       />
       <Stack.Screen name="NotFound" component={NotFoundScreen} />
       {/* <Stack.Group screenOptions={{ presentation: 'modal' }}>
@@ -153,3 +155,9 @@ function TabBarIcon(props: {
 }) {
   return <FontAwesome size={30} style={{ marginBottom: -3 }} {...props} />;
 }
+
+const styles = StyleSheet.create({
+  chatRoomHeader: {
+    backgroundColor: "red"
+  }
+})
