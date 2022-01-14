@@ -48,6 +48,16 @@ const styles = StyleSheet.create({
     borderColor: "lightgray",
     borderRadius: 10,
   },
+  sendAudioContainer : {
+    flexDirection: "row",
+    marginVertical: 10,
+    alignSelf: "stretch",
+    justifyContent: "space-between",
+    borderWidth: 1,
+    borderColor: "lightgray",
+    borderRadius: 10,
+    padding: 10
+  }
 });
 
 export default styles;

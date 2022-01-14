@@ -2,7 +2,7 @@ import { REACT_APP_API_URL } from '@env';
 import axios from 'axios';
 
 
-const jwtInterceptor = () =>{
+export const jwtInterceptor = () =>{
   axios.interceptors.request.use((request: any) =>{
 
     // add auth header with jwt if account is logged in and request is to the api url

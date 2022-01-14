@@ -17,6 +17,8 @@ import {
   View,
 } from "react-native";
 
+import { Audio, Video } from "expo-av";
+
 import EmojiSelector, { Categories } from "react-native-emoji-selector";
 import { ChatRoom, Message, UserChatRoom } from "../../src/models";
 import styles from "./MessageInput.style";
@@ -33,6 +35,9 @@ const MessageInput = ({ props }: any) => {
   const authUser = useSelector((state: RootState) => state.auth);
   const [image, setImage] = useState<any>(null);
   const [user, setUser] = useState<any>("");
+  const [progress, setProgress] = useState<any>(0);
+  const [recording, setRecording] = useState<any>();
+  const [sound, setSound] = useState<any>();
 
   useEffect(() => {
     fetchUsers();
@@ -67,7 +72,9 @@ const MessageInput = ({ props }: any) => {
   const sendImage = async (image: any) => {
     const blob = await ImageService.getImageBlob(image);
     const date = moment().format();
-    const { key } = await Storage.put(`${date}.png`, blob);
+    const { key } = await Storage.put(`${date}.png`, blob, {
+      progressCallback,
+    });
 
     const newImage = await DataStore.save(
       new Message({
@@ -78,6 +85,10 @@ const MessageInput = ({ props }: any) => {
       })
     );
     updateLastMessage(newImage);
+  };
+
+  const progressCallback = (progress: any) => {
+    setProgress(progress.loaded / progress.total);
   };
 
   const onPressButtonSend = () => {
@@ -116,10 +127,54 @@ const MessageInput = ({ props }: any) => {
     );
   };
 
+  // Audio
+
+  const startRecording = async () => {
+    try {
+      console.log("Requesting permissions..");
+      await Audio.requestPermissionsAsync();
+      await Audio.setAudioModeAsync({
+        allowsRecordingIOS: true,
+        playsInSilentModeIOS: true,
+      });
+      console.log("Starting recording..");
+      const { recording } = await Audio.Recording.createAsync(
+        Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
+      );
+      setRecording(recording);
+      console.log("Recording started");
+    } catch (err) {
+      console.error("Failed to start recording", err);
+    }
+  };
+
+  const stopRecording = async () => {
+    console.log("Stopping recording..");
+    if (!recording) return;
+
+    setRecording(null);
+    await recording.stopAndUnloadAsync();
+    await Audio.setAudioModeAsync({
+      allowsRecordingIOS: false,
+    });
+
+    const uri = recording.getURI();
+    console.log("Recording stopped and stored at", uri);
+
+    const { sound } = await Audio.Sound.createAsync({ uri });
+    setSound(sound);
+  };
+
+  const playPauseSound = async () => {
+    if (!sound) return;
+    await sound.playASync();
+  };
+
   const resetFields = () => {
     setMessage("");
     setIsOpenEmojiPicker(false);
     setImage(null);
+    setProgress(0);
   };
 
   return (
@@ -142,14 +197,14 @@ const MessageInput = ({ props }: any) => {
               alignSelf: "flex-end",
             }}
           >
-            {/* <View
+            <View
               style={{
                 height: 5,
                 borderRadius: 5,
-                backgroundColor: "#3777f0",
+                backgroundColor: "#FED1EF",
                 width: `${progress * 100}%`,
               }}
-            /> */}
+            />
           </View>
 
           <Pressable onPress={() => setImage(null)}>
@@ -159,6 +214,14 @@ const MessageInput = ({ props }: any) => {
               color="black"
               style={{ margin: 5 }}
             />
+          </Pressable>
+        </View>
+      )}
+
+      {sound && (
+        <View style={styles.sendAudioContainer}>
+          <Pressable onPress={playPauseSound}>
+            <Feather name="play" size={24} color="grey" style={styles.icon} />
           </Pressable>
         </View>
       )}
@@ -194,12 +257,14 @@ const MessageInput = ({ props }: any) => {
             color="grey"
             style={styles.icon}
           />
-          <MaterialCommunityIcons
-            name="microphone-outline"
-            size={24}
-            color="grey"
-            style={styles.icon}
-          />
+          {/* <Pressable onPressIn={startRecording} onPressOut={stopRecording}>
+            <MaterialCommunityIcons
+              name="microphone-outline"
+              size={recording ? 30 : 24}
+              color={recording ? "red" : "grey"}
+              style={styles.icon}
+            />
+          </Pressable> */}
         </View>
 
         <Pressable onPress={onPressButtonSend} style={styles.buttonContainer}>

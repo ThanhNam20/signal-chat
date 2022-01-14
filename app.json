@@ -4,11 +4,11 @@
     "slug": "signal-clone",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/chat.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/chat.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -23,9 +23,11 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "foregroundImage": "./assets/images/chat.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.test.nam",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
@@ -36,8 +38,8 @@
       "expo-image-picker",
       {
         "photosPermission": "The app accesses your photos to let you share them with your friends.",
-        "cameraPermission": "",
-        "microphonePermission":""
+        "cameraPermission": "The app accesses your cameras to let you share them with your friends.",
+        "microphonePermission":"The app accesses your micros to let you share them with your friends."
       }
     ]
   ]

@@ -1,7 +1,7 @@
 
 import axios from 'axios';
 
-const jwtInterceptorError = () =>{
+export const jwtInterceptorError = () =>{
   axios.interceptors.response.use((error: any) => {
     const { response } = error;
     if (!response) {

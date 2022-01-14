@@ -10,7 +10,12 @@ import Amplify, {Auth} from 'aws-amplify';
 import config from './src/aws-exports';
 // @ts-ignore
 import { withAuthenticator } from 'aws-amplify-react-native';
+import { jwtInterceptorError } from './interceptors/error-interceptor';
+import { jwtInterceptor } from './interceptors/interceptor';
 Amplify.configure(config);
+jwtInterceptor();
+jwtInterceptorError();
+
 function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
