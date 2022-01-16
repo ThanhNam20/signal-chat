@@ -16,12 +16,9 @@ const UserScreen = () => {
 
   // query user from aws
   const fetchUsers = async () => {
-    console.log(authUser);
-    
     const fetchedUsers = await DataStore.query(User, (user) =>
       user.id("ne", authUser.authUserInfo.id)
     );
-    console.log(fetchedUsers);
     setUsers(fetchedUsers);
   };
 

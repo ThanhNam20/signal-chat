@@ -87,6 +87,13 @@ export const schema = {
                     "isRequired": true,
                     "attributes": []
                 },
+                "lastOnlineAt": {
+                    "name": "lastOnlineAt",
+                    "isArray": false,
+                    "type": "AWSTimestamp",
+                    "isRequired": false,
+                    "attributes": []
+                },
                 "createdAt": {
                     "name": "createdAt",
                     "isArray": false,
@@ -171,6 +178,22 @@ export const schema = {
                     "name": "audio",
                     "isArray": false,
                     "type": "String",
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "status": {
+                    "name": "status",
+                    "isArray": false,
+                    "type": {
+                        "enum": "MessageStatus"
+                    },
+                    "isRequired": false,
+                    "attributes": []
+                },
+                "replyToMessageID": {
+                    "name": "replyToMessageID",
+                    "isArray": false,
+                    "type": "ID",
                     "isRequired": false,
                     "attributes": []
                 },
@@ -419,7 +442,16 @@ export const schema = {
             ]
         }
     },
-    "enums": {},
+    "enums": {
+        "MessageStatus": {
+            "name": "MessageStatus",
+            "values": [
+                "DELIVERED",
+                "READ",
+                "SENT"
+            ]
+        }
+    },
     "nonModels": {},
-    "version": "be35873b9c7f62609cb762427a6d4a17"
+    "version": "e3f6c03720bc08d303c1421496431385"
 };

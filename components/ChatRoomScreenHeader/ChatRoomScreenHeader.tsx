@@ -6,6 +6,7 @@ import { Image, Text, useWindowDimensions, View } from "react-native";
 import { useSelector } from "react-redux";
 import { UserChatRoom } from "../../src/models";
 import { RootState } from "../../store/store";
+import { S3Image } from "aws-amplify-react-native";
 
 const ChatRoomScreenHeader = ({ id }: any) => {
   const { width, height } = useWindowDimensions();
@@ -45,10 +46,21 @@ const ChatRoomScreenHeader = ({ id }: any) => {
           justifyContent: "center",
         }}
       >
-        <Image
-          source={{ uri: user.imageUri }}
-          style={{ width: 30, height: 30, borderRadius: 30 }}
-        />
+        {user.imageUri && !user.imageUri.startsWith("https") ? (
+          <S3Image
+            imgKey={user.imageUri}
+            style={{ width: 30, height: 30, borderRadius: 30 }}
+            resizeMode="cover"
+          />
+        ) : (
+          <Image
+            source={{
+              uri: user.imageUri,
+            }}
+            style={{ width: 30, height: 30, borderRadius: 30 }}
+          />
+        )}
+
         <Text
           style={{
             textAlign: "center",

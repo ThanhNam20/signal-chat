@@ -17,16 +17,7 @@ export default function HomeScreen({}: RootTabScreenProps<"TabOne">) {
   React.useEffect(() => {
     getUserLoginData();
   }, []);
-
-  React.useEffect(() => {
-    const chatRoomsSub = DataStore.observe(UserChatRoom).subscribe((room: any) =>{
-      if(room.model && room.opType === 'INSERT'){
-        setChatRooms(existingMessage => [room.element, ...existingMessage])
-      }
-    })
-    return chatRoomsSub.unsubscribe();
-  }, []);
-
+  
   const getUserLoginData = async () => {
     const userData = await AsyncStorageService.getItem(
       keyLocalStorage.userData
@@ -45,6 +36,7 @@ export default function HomeScreen({}: RootTabScreenProps<"TabOne">) {
       .map((chatRoomItem) => chatRoomItem.chatRoom);
     setChatRooms(chatRooms);
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <FlatList

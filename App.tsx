@@ -1,17 +1,17 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
-import useCachedResources from './hooks/useCachedResources';
-import useColorScheme from './hooks/useColorScheme';
-import Navigation from './navigation';
-import { Provider } from 'react-redux';
-import { store } from './store/store';
-import Amplify, {Auth} from 'aws-amplify';
-import config from './src/aws-exports';
-// @ts-ignore
-import { withAuthenticator } from 'aws-amplify-react-native';
-import { jwtInterceptorError } from './interceptors/error-interceptor';
-import { jwtInterceptor } from './interceptors/interceptor';
+import Amplify, { Hub, DataStore } from "aws-amplify";
+import { StatusBar } from "expo-status-bar";
+import React, { useEffect } from "react";
+import { SafeAreaProvider } from "react-native-safe-area-context";
+import { Provider } from "react-redux";
+import useCachedResources from "./hooks/useCachedResources";
+import useColorScheme from "./hooks/useColorScheme";
+import { jwtInterceptorError } from "./interceptors/error-interceptor";
+import { jwtInterceptor } from "./interceptors/interceptor";
+import Navigation from "./navigation";
+import config from "./src/aws-exports";
+import { Message, MessageStatus } from "./src/models";
+import { store } from "./store/store";
+
 Amplify.configure(config);
 jwtInterceptor();
 jwtInterceptorError();
@@ -19,16 +19,38 @@ jwtInterceptorError();
 function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-  
+
+  // Listening update amplify store
+  useEffect(() => {
+    const listener = Hub.listen("datastore", async (hubData) => {
+      const { event, data } = hubData.payload;
+      if (
+        event === "outboxMutationProcessed" &&
+        data.model === Message &&
+        !["DELIVERED", "READ"].includes(data.element.status)
+      ) {
+        // set the message status to delivered
+        DataStore.save(
+          Message.copyOf(data.element, (updated) => {
+            updated.status = "DELIVERED";
+          })
+        );
+      }
+    });
+
+    // Remove listener
+    return () => listener();
+  }, []);
+
   if (!isLoadingComplete) {
     return null;
   } else {
     return (
       <Provider store={store}>
-      <SafeAreaProvider>
-        <Navigation colorScheme={colorScheme} />
-        <StatusBar />
-      </SafeAreaProvider>
+        <SafeAreaProvider>
+          <Navigation colorScheme={colorScheme} />
+          <StatusBar />
+        </SafeAreaProvider>
       </Provider>
     );
   }

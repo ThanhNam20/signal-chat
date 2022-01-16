@@ -1,18 +1,24 @@
 import { Feather } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, Text, useWindowDimensions, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  Text,
+  useWindowDimensions,
+  View,
+} from "react-native";
 import { keyLocalStorage } from "../../constants/Constant";
 import { AsyncStorageService } from "../../services/storage.service";
-import { User } from "../../src/models";
+import { S3Image } from "aws-amplify-react-native";
 
 const HomeHeader = (props: any) => {
   const { width } = useWindowDimensions();
   const navigation = useNavigation();
   const [user, setUser] = useState<any>({});
-  useEffect(() =>{
+  useEffect(() => {
     getUserLoginData();
-  }, [])
+  }, []);
 
   const getUserLoginData = async () => {
     const userData = await AsyncStorageService.getItem(
@@ -21,7 +27,7 @@ const HomeHeader = (props: any) => {
     if (!userData) {
       return;
     }
-    setUser(userData)
+    setUser(userData);
   };
 
   return (
@@ -34,15 +40,25 @@ const HomeHeader = (props: any) => {
         paddingHorizontal: 10,
         paddingBottom: 10,
         alignItems: "center",
-        backgroundColor: "#E2C2B9"
+        backgroundColor: "#E2C2B9",
       }}
     >
-
       <Pressable onPress={() => navigation.navigate("UserProfileScreen")}>
-      <Image
-        source={{uri: user.imageUri}}
-        style={{ width: 30, height: 30, borderRadius: 30 }}
-      />
+        
+        {user.imageUri && !user.imageUri.startsWith("https") ? (
+          <S3Image
+            imgKey={user.imageUri}
+            style={{ width: 30, height: 30, borderRadius: 30 }}
+            resizeMode="cover"
+          />
+        ) : (
+          <Image
+            source={{
+              uri: user.imageUri,
+            }}
+            style={{ width: 30, height: 30, borderRadius: 30 }}
+          />
+        )}
       </Pressable>
 
       <Text
@@ -51,7 +67,7 @@ const HomeHeader = (props: any) => {
           textAlign: "center",
           marginLeft: 50,
           fontWeight: "bold",
-          fontSize: 18
+          fontSize: 18,
         }}
       >
         Signal
@@ -70,7 +86,6 @@ const HomeHeader = (props: any) => {
           style={{ marginHorizontal: 5 }}
         />
       </Pressable>
-
     </View>
   );
 };

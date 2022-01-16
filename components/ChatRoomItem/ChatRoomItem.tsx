@@ -1,8 +1,9 @@
 import { DataStore } from "@aws-amplify/datastore";
 import { useNavigation } from "@react-navigation/core";
+import { S3Image } from "aws-amplify-react-native";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, Image, Pressable, View, Text } from "react-native";
+import { ActivityIndicator, Image, Pressable, Text, View } from "react-native";
 import { useSelector } from "react-redux";
 import { Message, User, UserChatRoom } from "../../src/models";
 import { RootState } from "../../store/store";
@@ -45,8 +46,20 @@ const ChatRoomItem = ({ chatRoomData }: any) => {
 
   return (
     <Pressable onPress={goToConversation} style={styles.container}>
-      <Image source={{ uri: user.imageUri}} style={styles.image} />
-
+        {user.imageUri && !user.imageUri.startsWith("https") ? (
+          <S3Image
+            imgKey={user.imageUri}
+            style={styles.image}
+            resizeMode="cover"
+          />
+        ) : (
+          <Image
+            source={{
+              uri: user.imageUri,
+            }}
+            style={styles.image}
+          />
+        )}
       {chatRoomData.newMessages > 0 ? (
         <View style={styles.badgeContainer}>
           <Text style={styles.badgeText}>{chatRoomData.newMessages}</Text>

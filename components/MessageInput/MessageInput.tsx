@@ -114,6 +114,7 @@ const MessageInput = ({ props }: any) => {
         content: message,
         userID: userId,
         chatroomID: chatRoom.id,
+        status: "SENT"
       })
     );
     updateLastMessage(newMessage);
