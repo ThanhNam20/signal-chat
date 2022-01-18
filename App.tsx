@@ -19,8 +19,9 @@ jwtInterceptorError();
 function App() {
   const isLoadingComplete = useCachedResources();
   const colorScheme = useColorScheme();
-
   // Listening update amplify store
+
+  // Check status message
   useEffect(() => {
     const listener = Hub.listen("datastore", async (hubData) => {
       const { event, data } = hubData.payload;
@@ -37,10 +38,11 @@ function App() {
         );
       }
     });
-
     // Remove listener
     return () => listener();
   }, []);
+
+
 
   if (!isLoadingComplete) {
     return null;
